@@ -377,6 +377,29 @@ def build_index():
         metadata.append(text)
 
     # Build FAISS index
+    # 11. Hướng dẫn sử dụng UI (FAQ)
+    print("❓ Đang đọc ui_instructions...")
+    cursor.execute("""
+        SELECT 
+            question,
+            instruction,
+            category,
+            keywords
+        FROM ui_instructions
+    """)
+    
+    for r in cursor.fetchall():
+        # Thêm câu hỏi vào vector store
+        text = f"Câu hỏi: {r['question']}\n\nHướng dẫn: {r['instruction']}\n\nDanh mục: {r['category']}"
+        vectors.append(embed(text))
+        metadata.append(text)
+        
+        # Thêm keywords để tìm kiếm tốt hơn
+        if r['keywords']:
+            keywords_text = f"Hướng dẫn về: {r['keywords']}. {r['instruction']}"
+            vectors.append(embed(keywords_text))
+            metadata.append(text)  # Vẫn trả về full instruction
+
     if not vectors:
         print("❌ Không có dữ liệu trong database!")
         return
@@ -406,6 +429,7 @@ def build_index():
     print("   🏅 Kết quả giải đấu")
     print("   ⭐ Đánh giá sự kiện")
     print("   🏟️ Cơ sở vật chất")
+    print("   ❓ Hướng dẫn sử dụng UI")
 
 if __name__ == "__main__":
     build_index()

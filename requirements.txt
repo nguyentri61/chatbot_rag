@@ -3,3 +3,6 @@ uvicorn
 faiss-cpu
 sentence-transformers
 pydantic
+google-genai
+python-dotenv
+mysql-connector-python

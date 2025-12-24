@@ -15,7 +15,7 @@ INSERT INTO ui_instructions (question, instruction, category, keywords) VALUES
 ('Làm sao để tham gia một hoạt động?',
 '**Cách tham gia hoạt động:**  
 
-1. Vào **"Danh sách hoạt động"**  
+1. Vào tab **"Hoạt động"**  
 2. Chọn hoạt động muốn tham gia  
 3. Xem chi tiết:
    • Thời gian  
@@ -36,7 +36,7 @@ INSERT INTO ui_instructions (question, instruction, category, keywords) VALUES
 '**Cách gửi lý do vắng mặt:**  
 
 1. Đăng nhập vào hệ thống  
-2. Vào **"Hoạt động của tôi"**  
+2. Chọn **"Hoạt động đã tham gia"** ở tab **"Hoạt động"**  
 3. Chọn hoạt động bạn đã đăng ký nhưng **không tham gia**  
 4. Khi trạng thái là **"Vắng mặt"**, nhấn **"Gửi lý do vắng mặt"**  
 5. Nhập nội dung lý do:
@@ -241,6 +241,20 @@ INSERT INTO ui_instructions (question, instruction, category, keywords) VALUES
 'Schedule',
 'xem lịch hoạt động, lịch CLB, lịch sự kiện, activity calendar');
 
+INSERT INTO ui_instructions (question, instruction, category, keywords) VALUES
+('Làm thế nào để tạo và cập nhật trình độ cá nhân?',
+'**Cách tạo và cập nhật trình độ cá nhân:**
+
+1. Đăng nhập vào hệ thống  
+2. Vào **"Hồ sơ cá nhân"**
+3. Tìm mục **"Tạo trình độ/Cập nhật trình độ"**
+4. Điền đầy đủ các thông tin trong form yêu cầu.
+5. Nhấn **"Lưu"** để hoàn tất.
+**Lưu ý:**
+• Trình độ cá nhân giúp hệ thống gợi ý hoạt động và giải đấu phù hợp.
+• Cập nhật trình độ định kỳ để phản ánh đúng khả năng hiện tại.',
+'Account',
+'tạo trình độ, cập nhật trình độ, personal skill level');
 
 
 

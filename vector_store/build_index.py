@@ -66,7 +66,6 @@ def build_index():
             registration_start_date,
             registration_end_date,
             status,
-            fee,
             rules
         FROM tournaments
     """)
@@ -77,7 +76,6 @@ def build_index():
             f"tổ chức tại {r['location']} "
             f"từ {r['start_date']} đến {r['end_date']}. "
             f"Trạng thái: {r['status']}. "
-            f"Phí tham gia: {r['fee'] or 0} VNĐ. "
             f"Đăng ký từ {r['registration_start_date']} đến {r['registration_end_date']}. "
             f"Mô tả: {r['description'] or 'Không có'}."
         )
@@ -97,7 +95,6 @@ def build_index():
             c.first_prize,
             c.second_prize,
             c.third_prize,
-            c.format,
             c.registration_deadline
         FROM tournament_categories c
         JOIN tournaments t ON t.id = c.tournament_id
@@ -112,7 +109,6 @@ def build_index():
             f"Phí: {r['registration_fee'] or 0} VNĐ. "
             f"Giải thưởng: Nhất {r['first_prize'] or 'N/A'}, Nhì {r['second_prize'] or 'N/A'}, Ba {r['third_prize'] or 'N/A'}. "
             f"Hạn đăng ký: {r['registration_deadline']}. "
-            f"Thể thức: {r['format']}."
         )
         vectors.append(embed(text))
         metadata.append(text)

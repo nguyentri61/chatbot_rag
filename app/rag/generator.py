@@ -25,7 +25,7 @@ def generate_answer(query: str, context: list[str]) -> str:
     
     # Create prompt for Gemini with flexible answering capability
     if has_context:
-        prompt = f"""Bạn là một trợ lý AI thông minh và hữu ích về thể thao và hoạt động thể chất. 
+        prompt = f"""Bạn là một trợ lý AI thông minh và hữu ích của trang web cộng đồng cầu lông BadmintonNet. 
 Nhiệm vụ của bạn là trả lời câu hỏi dựa trên thông tin được cung cấp.
 
 Quy tắc trả lời:
@@ -35,6 +35,8 @@ Quy tắc trả lời:
 4. Nếu thông tin không đủ hoặc câu hỏi mang tính tổng quát, hãy bổ sung kiến thức chung hợp lý
 5. Trình bày có cấu trúc, logic và mạch lạc
 6. Tóm tắt ngắn gọn, dễ hiểu
+7. Cầu trả lời đúng ngôn ngữ tự nhiên và không lang mang trả lời các vấn đề ngoài lề
+8. Gợi ý thêm câu hỏi khác cho người dùng.
 
 Thông tin từ cơ sở dữ liệu:
 
@@ -45,7 +47,7 @@ Câu hỏi: {query}
 Hãy trả lời câu hỏi một cách đầy đủ và hữu ích nhất."""
     else:
         # For questions without context, allow Gemini to use general knowledge
-        prompt = f"""Bạn là một trợ lý AI thông minh về thể thao và hoạt động thể chất. 
+        prompt = f"""Bạn là một trợ lý AI thông minh trang web cộng đồng cầu lông BadmintonNet.
 Người dùng hỏi về: {query}
 
 Mặc dù không có thông tin cụ thể trong cơ sở dữ liệu, hãy:
@@ -55,6 +57,8 @@ Mặc dù không có thông tin cụ thể trong cơ sở dữ liệu, hãy:
 4. Trình bày có cấu trúc, từng bước rõ ràng
 5. Nếu là câu hỏi về "cách tham gia", "quy trình", "thủ tục" - hãy đưa ra hướng dẫn tổng quát
 6. Giữ câu trả lời ngắn gọn (3-5 bước chính)
+7. Cầu trả lời đúng ngôn ngữ tự nhiên và không lang mang trả lời các vấn đề ngoài lề
+8. Gợi ý thêm câu hỏi khác cho người dùng.
 
 Lưu ý: Đây là câu trả lời tổng quát vì chưa có thông tin cụ thể trong hệ thống."""
 

@@ -1,7 +1,6 @@
 import os
-from google import genai
-from google.genai import types
 from dotenv import load_dotenv
+import ollama
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -9,21 +8,20 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 # Load environment variables
 load_dotenv()
 
-# Initialize Google Gemini client
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+OLLAMA_MODEL = "qwen2.5:3b"  # đổi nếu máy yếu: qwen2.5:3b, mistral
 
 def generate_answer(query: str, context: list[str]) -> str:
-    """Generate answer using Google Gemini based on retrieved context"""
-    
-    # Prepare context for Gemini
+    """Generate answer using Ollama based on retrieved context"""
+
+    # Prepare context for Ollama
     if context and len(context) > 0:
         context_text = "\n\n".join(context[:5])
         has_context = True
     else:
         context_text = "Không có thông tin cụ thể trong cơ sở dữ liệu."
         has_context = False
-    
-    # Create prompt for Gemini with flexible answering capability
+
+    # ====== GIỮ NGUYÊN PROMPT CỦA BẠN ======
     if has_context:
         prompt = f"""Bạn là một trợ lý AI thông minh của trang web kết nối cộng đồng cầu lông BadmintonNet. 
 Nhiệm vụ của bạn là trả lời câu hỏi dựa trên thông tin được cung cấp.
@@ -45,7 +43,6 @@ Câu hỏi: {query}
 
 Hãy trả lời câu hỏi một cách đầy đủ và hữu ích nhất."""
     else:
-        # For questions without context, allow Gemini to use general knowledge
         prompt = f"""Bạn là một trợ lý AI của trang web kết nối cộng đồng cầu lông BadmintonNet.
 Người dùng hỏi về: {query}
 
@@ -58,25 +55,24 @@ Mặc dù không có thông tin cụ thể trong cơ sở dữ liệu, hãy:
 6. Giữ câu trả lời ngắn gọn (3-5 bước chính)
 
 Lưu ý: Đây là câu trả lời tổng quát vì chưa có thông tin cụ thể trong hệ thống."""
+    # =====================================
 
     try:
-        # Generate content with new API
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                temperature=0.7,
-                max_output_tokens=1024,
-                top_p=0.95,
-            )
+        response = ollama.chat(
+            model=OLLAMA_MODEL,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            options={
+                "temperature": 0.7,
+                "top_p": 0.95,
+            }
         )
-        
-        answer = response.text.strip()
-        return answer
-        
+
+        return response["message"]["content"].strip()
+
     except Exception as e:
-        # Fallback to simple response if API fails
-        print(f"Gemini API Error: {e}")
+        print(f"Ollama Error: {e}")
         if has_context:
             return f"**Thông tin tìm thấy:**\n\n{context_text}"
         else:
